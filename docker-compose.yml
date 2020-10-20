@@ -1,0 +1,30 @@
+# Docker-compose file
+# Use the following command to start the development environment:
+# UID=${UID} GID=${GID} docker-compose up
+#
+# Use docker-compose run --service-ports --rm webapp
+#
+# alias docker-serve="docker-compose run --rm --service-ports webapp"
+
+version: "3.3"
+services:
+  webapp:
+    build:
+      context: .
+    command: tail -F anything
+    volumes:
+        - .:/home/developer/app
+        #- /home/developer/app/node_modules
+    user: "${UID}:${GID}"
+    ports:
+        - "4200:4200"
+        - "8100:8100"
+        - "35729:35729"
+  theia:
+    image: "theiaide/theia:1.4.0"
+    restart: always
+    ports:
+        - "3000:3000"
+    user: "${UID}:${GID}"
+    volumes:
+        - .:/home/project:cached

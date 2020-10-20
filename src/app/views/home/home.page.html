@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title *ngIf="!showFilter">
+      Notes
+    </ion-title>
+    <ion-input #inputfilter
+        *ngIf="showFilter"
+        [(ngModel)]="filter" 
+        placeholder="Enter search...">
+      </ion-input>
+    <ion-buttons slot="end">
+      <ion-button *ngIf="!showFilter" (click)="searchNote()">
+        <ion-icon slot="icon-only" name="search-outline"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="showFilter" (click)="closeSearch()">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="addNote()">
+        <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+    <ion-item button detail 
+        *ngFor="let note of notesService.notes | notesfilter:filter" 
+        [routerLink]="'/notes/' + note.id" 
+        routerDirection="forward">
+      <ion-label>{{ note.title }}</ion-label>
+    </ion-item>
+  </ion-list>
+
+</ion-content>
